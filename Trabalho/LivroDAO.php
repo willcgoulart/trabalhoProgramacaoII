@@ -86,6 +86,23 @@ class LivroDAO
         }
     }
 
+    function atualizarLivro($id,$status)
+    {  
+        try
+        {
+            $query = "UPDATE livros SET status=:status WHERE cod_livro=:id";
+            $pdo = PDOFactory::getConexao();
+            $comando = $pdo->prepare($query);
+            $comando->bindParam(":id", $id);
+            $comando->bindParam(":status", $status);
+            $comando->execute();
+        } 
+        catch(PDOException $e)
+        {
+            echo "Statement failed: " . $e->getMessage();
+        }
+    }
+
     public function deletar($id)
     {
         try

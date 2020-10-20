@@ -2,6 +2,7 @@
 
 include_once('Locacao.php');
 include_once('LocacaoDAO.php');
+include_once('LivroDAO.php');
 
 class LocacaoController 
 {
@@ -37,6 +38,9 @@ class LocacaoController
         $locacao = new Locacao(0,$data['cod_livro'],$data['matricula'],$data['data_retirada'],$data['data_programada_devolucao'],$data['data_devolvida']);
     
         $dao = new LocacaoDAO;
+        $daoLivro = new LivroDAO;
+        $daoLivro->atualizarLivro($data['cod_livro'],"Ocupado");
+
         $locacao = $dao->inserir($locacao);
         $payload = json_encode($locacao);
             
@@ -53,14 +57,21 @@ class LocacaoController
         $locacao = new Locacao($id,$data['cod_livro'],$data['matricula'],$data['data_retirada'],$data['data_programada_devolucao'],$data['data_devolvida']);
     
         $dao = new LocacaoDAO;
+        $daoLivro = new LivroDAO;
+        if( $data['data_devolvida']!="" && $data['data_devolvida']!="0000-00-00" )
+        { 
+            $daoLivro->atualizarLivro($data['cod_livro'],"Livre");
+        }
+
         $locacao = $dao->atualizar($locacao);
         $payload = json_encode($locacao);
+
         
         $response->getBody()->write($payload);
         return $response
               ->withHeader('Content-Type', 'application/json');
     }
-
+    
     public function deletar($request, $response, $args)
     {
         $id = $args['id'];

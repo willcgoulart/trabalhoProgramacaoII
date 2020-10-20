@@ -21,7 +21,7 @@ $app->group('/api/autores', function($app){
     $app->get('/{id}', 'AutorController:buscarPorId');    
     $app->put('/{id}', 'AutorController:atualizar');
     $app->delete('/{id}', 'AutorController:deletar');
-});
+})->add('UsuarioController:validarToken');
 
 $app->group('/api/livros', function($app){
     $app->get('', 'LivroController:listar');
@@ -29,7 +29,7 @@ $app->group('/api/livros', function($app){
     $app->get('/{id}', 'LivroController:buscarPorId');    
     $app->put('/{id}', 'LivroController:atualizar');
     $app->delete('/{id}', 'LivroController:deletar');
-});
+})->add('UsuarioController:validarToken');
 
 $app->group('/api/locacoes', function($app){
     $app->get('', 'LocacaoController:listar');
@@ -39,14 +39,15 @@ $app->group('/api/locacoes', function($app){
     $app->delete('/{id}', 'LocacaoController:deletar');
 })->add('UsuarioController:validarToken');
 
-$app->post('/api/usuarios', 'UsuarioController:inserir');
+$app->post('/api/usuarios', 'UsuarioController:inserir')->add('UsuarioController:validarToken');
 $app->post('/api/login', 'UsuarioController:autenticar');
 
 
 $app->get('/', function (Request $request, Response $response, $args) {
     $response->getBody()->write("<h1>Olaaa!</h1> 
                                 <p>http://localhost:8080/api/autores</p>
-                                <p>http://localhost:8080/api/livros</p>");
+                                <p>http://localhost:8080/api/livros</p>
+                                <p>http://localhost:8080/api/locacoes</p>");
     return $response;
 });
 
