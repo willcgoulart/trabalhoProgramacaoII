@@ -9,14 +9,15 @@ class LivroDAO
     {
         try
         {
-            $query = 'SELECT * FROM livros';
+            $query = 'SELECT * FROM livros li 
+            INNER JOIN autores au ON au.cod_autor=li.cod_autor';
             $pdo = PDOFactory::getConexao();
             $comando = $pdo->prepare($query);
             $comando->execute();
             $livros=array();
-            
+    
             while($row = $comando->fetch(PDO::FETCH_OBJ)){ 
-                $livros[] = new Livro($row->cod_livro,$row->descri,$row->cod_autor,$row->status);
+                $livros[] = new Livro($row->cod_livro,$row->descri,$row->cod_autor,$row->status,$row->nome,$row->dt_nasc);
             }
             return $livros;
         }
@@ -38,7 +39,7 @@ class LivroDAO
             $livros=array();
         
             while($row = $comando->fetch(PDO::FETCH_OBJ)){ 
-                $livros[] = new Livro($row->cod_livro,$row->descri,$row->cod_autor,$row->status);
+                $livros[] = new Livro($row->cod_livro,$row->descri,$row->cod_autor,$row->status,$row->nome,$row->dt_nasc);
             }
             return $livros;
         }

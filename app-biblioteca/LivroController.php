@@ -35,7 +35,7 @@ class LivroController
     {
         $data = $request->getParsedBody();
         
-        $livro = new Livro(0,$data['descri'],$data['cod_autor'],$data['status']);
+        $livro = new Livro(0,$data['descri'],$data['cod_autor'],$data['status'],'','');
     
         $dao = new LivroDAO;
         $livro = $dao->inserir($livro);
@@ -51,7 +51,7 @@ class LivroController
     {
         $id = $args['id'];
         $data = $request->getParsedBody();
-        $livro = new Livro($id,$data['descri'],$data['cod_autor'],$data['status']);
+        $livro = new Livro($id,$data['descri'],$data['cod_autor'],$data['status'],'','');
     
         $dao = new LivroDAO;
         $livro = $dao->atualizar($livro);
